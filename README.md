@@ -1,2 +1,2 @@
-# Macaron_Bleu
- Um bot simples feito em Discord.js com várias utilidades e também auxilia em projetos de restaurante
+# Macaron Bleu
+ A simple bot made in Discord.js with many uses and also helps with restaurant projects
