@@ -3,7 +3,7 @@ const { EmbedBuilder } = require('discord.js')
 const client = require('../index')
 
 client.on('ready', () => {
-    const canal = client.channels.cache.get('1137400740357357568')
+    const canal = client.channels.cache.get('1267139820648398849')
     // unhandledRejection - unhandledRejection - unhandledRejection - unhandledRejection
     
     const process = require('node:process')
