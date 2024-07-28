@@ -91,7 +91,6 @@ client.on('messageCreate', async message => {
 
   if (!message.content.toLowerCase().startsWith(prefix.toLowerCase())) return;
   let args = message.content.trim().slice(prefix.length).split(/ +/g)
-
   try {
     const cmd = args.shift().toLowerCase()
     let command = client.commands.get(cmd)
