@@ -95,7 +95,7 @@ client.on('messageCreate', async message => {
     const cmd = args.shift().toLowerCase()
     let command = client.commands.get(cmd)
     if (!command) command = client.commands.get(client.aliases.get(cmd))
-    command.run(client, message, args.shift())
+    command.run(client, message, args)
   } catch (err) {
     console.error('Erro: ' + err);
   }
