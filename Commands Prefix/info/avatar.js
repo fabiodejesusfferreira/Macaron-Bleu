@@ -1,4 +1,5 @@
-const { EmbedBuilder, Message, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js")
+const { EmbedBuilder, Message, ActionRowBuilder, ButtonBuilder, ButtonStyle, StringSelectMenuBuilder } = require("discord.js")
+const avatarSchema = require('../../Models/avatar')
 
 module.exports = {
     name: "avatar",
@@ -9,10 +10,10 @@ module.exports = {
          * @type {Message}
          */
         let message = msg
-        let member = message.mentions.members.first() || message.guild.members.cache.get(args?.trim()) || message.guild.members.cache.find(member => member.user.username == args?.toLowerCase()) || message.member
-        let avatarDoMember = member.displayAvatarURL({ size: 1024, forceStatic: false, extension: 'jpg' })
-        let avatarGlobal = member.user.displayAvatarURL({ size: 1024, forceStatic: false, extension: 'jpg' })
-        console.log(args);
+        let member = message.mentions.members.first() || message.guild.members.cache.get(args?.[0]?.trim()) || message.guild.members.cache.find(member => member.user.username == args?.[0]?.toLowerCase()) || message.member
+
+        let avatarDoMember = member.displayAvatarURL({ size: 256, forceStatic: false, extension: 'jpg' })
+        let avatarGlobal = member.user.displayAvatarURL({ size: 256, forceStatic: false, extension: 'jpg' })
 
         let buttonGlobal = new ActionRowBuilder().addComponents(
             new ButtonBuilder()
@@ -28,6 +29,43 @@ module.exports = {
                 .setStyle(ButtonStyle.Primary)
         )
 
+        let novoAvatar = new avatarSchema({
+            userId: message.author.id,
+            targetId: member.id
+        });
+
+        let painelSize = new ActionRowBuilder().addComponents(
+            new StringSelectMenuBuilder()
+                .setCustomId('painel_size')
+                .setPlaceholder('Image size')
+                .addOptions(
+                    {
+                        label: "64",
+                        value: `size.64.${novoAvatar.uniqueId}`
+                    },
+                    {
+                        label: "128",
+                        value: `size.128.${novoAvatar.uniqueId}`
+                    },
+                    {
+                        label: "256",
+                        value: `size.256.${novoAvatar.uniqueId}`
+                    },
+                    {
+                        label: "512",
+                        value: `size.512.${novoAvatar.uniqueId}`
+                    },
+                    {
+                        label: "1024",
+                        value: `size.1024.${novoAvatar.uniqueId}`
+                    },
+                    {
+                        label: "2048",
+                        value: `size.2048.${novoAvatar.uniqueId}`
+                    },
+                )
+        )
+
         let embed = new EmbedBuilder()
             .setColor(member.displayHexColor || "#8BCAD9")
             .setTitle(member.nickname || member.user.globalName)
@@ -35,11 +73,20 @@ module.exports = {
             .setImage(avatarDoMember)
             .setFooter({ text: message.guild.name, iconURL: message.guild.iconURL({ forceStatic: false, size: 512 }) })
 
-        message.reply({ embeds: [embed], components: [buttonGlobal] }).then(async (interaction) => {
+        message.reply({ embeds: [embed], components: [painelSize, buttonGlobal] }).then(async (interaction) => {
             let filter = i => i.user.id === message.author.id
             let colector = interaction.createMessageComponentCollector({
                 filter: filter,
             })
+
+            await avatarSchema.findOneAndUpdate({ uniqueId: novoAvatar.uniqueId }, {
+                $set: {
+                    messageId: interaction.id,
+                    userId: message.author.id,
+                    targetId: member.id
+                }
+            }, { upsert: true });
+
             colector.on('collect', coll => {
                 switch (coll.customId) {
                     case 'global.avatar': {
