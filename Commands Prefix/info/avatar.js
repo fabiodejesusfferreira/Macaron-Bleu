@@ -98,14 +98,14 @@ module.exports = {
                                     .setDescription(`Download the user avatar by clicking [here](${avatarGlobal})`)
                                     .setColor('#45A9BF')
                                     .setImage(avatarGlobal)
-                            ], components: [buttonGuild]
+                            ], components: [painelSize, buttonGuild]
                         })
                     } break;
 
                     case 'guild.avatar': {
                         coll.deferUpdate()
                         interaction.edit({
-                            embeds: [embed], components: [buttonGlobal]
+                            embeds: [embed], components: [painelSize, buttonGlobal]
                         })
                     } break;
                 }
