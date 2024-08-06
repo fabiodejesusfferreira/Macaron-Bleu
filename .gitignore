@@ -4,3 +4,4 @@ config.json
 package.json
 discloud.config
 Emojis/
+Commands Prefix/bot/hello.js
