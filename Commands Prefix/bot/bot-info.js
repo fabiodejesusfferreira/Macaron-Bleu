@@ -18,6 +18,33 @@ module.exports = {
         let prefix = client.commands.map(a => a.name).length
         let slash = client.slashCommands.map(a => a.commandName).length
         let users = message.client.users.cache.filter(usuario => !usuario.bot).size
+        let botPing = Math.abs(client.ws.ping);
+        let messagePing = Math.abs(message.createdTimestamp - Date.now())
+        const node = process.version;
+        const discordjsversion = version
+
+        let databasePing;
+        try {
+            const startTime = Date.now();
+            await MongoClient.connect(config.mongoDB);
+            const endTime = Date.now();
+            databasePing = `${endTime - startTime}ms`;
+        } catch (error) {
+            databasePing = "<:warn:1268952774192791592>";
+        }
+
+        let buttons = new ActionRowBuilder().addComponents(
+            new ButtonBuilder()
+                .setLabel(`Add me`)
+                .setEmoji('1267637434183716997')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://discord.com/oauth2/authorize?client_id=1266420565447544862&permissions=8&integration_type=0&scope=applications.commands+bot'),
+            new ButtonBuilder()
+                .setLabel(`Server Support`)
+                .setEmoji('1267637164917915729')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://discord.gg/c48kj4mXgp')
+        )
 
         let embedBotInfo = new EmbedBuilder()
             .setColor('#4EB1D9')
