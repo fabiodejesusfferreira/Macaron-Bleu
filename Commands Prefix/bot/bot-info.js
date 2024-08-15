@@ -43,7 +43,17 @@ module.exports = {
                 .setLabel(`Server Support`)
                 .setEmoji('1267637164917915729')
                 .setStyle(ButtonStyle.Link)
-                .setURL('https://discord.gg/c48kj4mXgp')
+                .setURL('https://discord.gg/c48kj4mXgp'),
+            new ButtonBuilder()
+                .setLabel('Terms of Service')
+                .setEmoji('1267636875724853309')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://github.com/fabiodejesusfferreira/Macaron-Bleu/blob/main/services/terms_of_service.md'),
+            new ButtonBuilder()
+                .setLabel('Privacy Policy')
+                .setEmoji('1267636875724853309')
+                .setStyle(ButtonStyle.Link)
+                .setURL('https://github.com/fabiodejesusfferreira/Macaron-Bleu/blob/main/services/privacy_policy.md')
         )
 
         let embedBotInfo = new EmbedBuilder()
