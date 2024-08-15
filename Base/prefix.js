@@ -4,11 +4,7 @@ module.exports = {
     name: "",
     aliases: [""],
 
-    run: async(client, msg, args) => {
-        /**
-         * @type {Message}
-         */
-        let message = msg
+    run: async(client = require('../index'), /** @type {Message} */ message, /** @type {Array} */ args) => {
 
         
     }
